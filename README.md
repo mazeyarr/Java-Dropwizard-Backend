@@ -7,9 +7,9 @@ Taken from this [link](https://github.com/HoldInArms/dropwizard-mssql-crud-examp
 
 MYSQL database: Update the main.yml if your configuration differs. In this example, we use
 
-	database: hello_world
-	user: hello_user
-	pass: pass1234
+	database: database_name
+	user: database_user
+	pass: database_password
 
 ### Build:
 
@@ -18,12 +18,16 @@ MYSQL database: Update the main.yml if your configuration differs. In this examp
 
 ### Database creation:
 
-	java -jar target/holdinarms-0.0.1.jar db migrate main.yml
+	java -jar target/iipsen2-0.0.1.jar db migrate main.yml
 	
 	
 ### Run:
 
-	java -jar target/holdinarms-0.0.1.jar server main.yml
+	java -jar target/iipsen2-0.0.1.jar server main.yml
+	
+### Watch changes
+    
+    mvn fizzed-watcher:run
 	
 	
 ### Open browser pointing at
