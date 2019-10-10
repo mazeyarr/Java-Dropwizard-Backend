@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="holdinarms" />
+        <module name="iipsen2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="holdinarms" target="1.7" />
+      <module name="iipsen2" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

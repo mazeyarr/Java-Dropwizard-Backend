@@ -1,8 +1,8 @@
-package hu.holdinarms.example.resources;
+package com.iipsen2.app.resources;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import hu.holdinarms.example.MainService;
+import com.iipsen2.app.MainService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

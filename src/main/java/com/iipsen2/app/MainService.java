@@ -1,13 +1,12 @@
-package hu.holdinarms.example;
+package com.iipsen2.app;
 
-import hu.holdinarms.example.resources.HtmlPageResource;
+import com.iipsen2.app.resources.HtmlPageResource;
 import io.dropwizard.Application;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainService extends Application<MainConfiguration> {

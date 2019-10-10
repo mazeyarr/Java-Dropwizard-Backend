@@ -1,4 +1,4 @@
-package hu.holdinarms.example;
+package com.iipsen2.app;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
