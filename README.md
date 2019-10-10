@@ -18,12 +18,12 @@ MYSQL database: Update the main.yml if your configuration differs. In this examp
 
 ### Database creation:
 
-	java -jar target/iipsen2-0.0.1.jar db migrate main.yml
+	java -jar target/iipsen2-1.0.0.jar db migrate main.yml
 	
 	
 ### Run:
 
-	java -jar target/iipsen2-0.0.1.jar server main.yml
+	java -jar target/iipsen2-1.0.0.jar server main.yml
 	
 ### Watch changes
     
