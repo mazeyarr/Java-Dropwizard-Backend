@@ -32,6 +32,7 @@ public class HtmlPageResource {
     }
 
     @POST
+    @Path("version")
     @Produces(MediaType.APPLICATION_JSON)
     public Response version() {
         return Response

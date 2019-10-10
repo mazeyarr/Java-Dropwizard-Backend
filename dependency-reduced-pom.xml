@@ -86,6 +86,21 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>com.fizzed</groupId>
+        <artifactId>fizzed-watcher-maven-plugin</artifactId>
+        <version>1.0.4</version>
+        <configuration>
+          <files>
+            <param>src/main/java</param>
+          </files>
+          <goals>
+            <param>clean</param>
+            <param>package</param>
+          </goals>
+          <profiles />
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-site-plugin</artifactId>
         <version>3.4</version>
         <configuration />

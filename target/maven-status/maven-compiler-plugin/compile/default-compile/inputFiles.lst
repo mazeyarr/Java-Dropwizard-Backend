@@ -1,3 +1,5 @@
 /Users/mazeyar/dev/java/dropwizard-mysql-crud-example/src/main/java/com/iipsen2/app/resources/HtmlPageResource.java
 /Users/mazeyar/dev/java/dropwizard-mysql-crud-example/src/main/java/com/iipsen2/app/MainService.java
+/Users/mazeyar/dev/java/dropwizard-mysql-crud-example/src/main/java/com/iipsen2/app/daos/DAO.java
+/Users/mazeyar/dev/java/dropwizard-mysql-crud-example/src/main/java/com/iipsen2/app/checks/DatabaseHealthCheck.java
 /Users/mazeyar/dev/java/dropwizard-mysql-crud-example/src/main/java/com/iipsen2/app/MainConfiguration.java
