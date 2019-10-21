@@ -1,4 +1,8 @@
 com.iipsen2.app
 com.iipsen2.app.checks
 com.iipsen2.app.daos
+com.iipsen2.app.daos.User
+com.iipsen2.app.daos.UserRoles
+com.iipsen2.app.models
 com.iipsen2.app.resources
+com.iipsen2.app.services

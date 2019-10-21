@@ -2,9 +2,11 @@ server:
   applicationConnectors:
     - type: http
       port: 9000
+  adminContextPath: /admin
   adminConnectors:
     - type: http
       port: 9001
+  rootPath: /api/*
 
 # Database settings.
 database:

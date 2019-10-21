@@ -168,7 +168,7 @@
         <configuration>
           <files>
             <param>src/main/java</param>
-<!--            <param>src/main/resources</param>-->
+            <param>src/main/resources</param>
           </files>
           <goals>
             <param>clean</param>

@@ -3,6 +3,8 @@ package com.iipsen2.app;
 import com.iipsen2.app.checks.DatabaseHealthCheck;
 import com.iipsen2.app.daos.DAO;
 import com.iipsen2.app.resources.HtmlPageResource;
+import com.iipsen2.app.resources.UserResource;
+import com.iipsen2.app.services.UserService;
 import io.dropwizard.Application;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
@@ -37,6 +39,10 @@ public class MainService extends Application<MainConfiguration> {
     final DAO dao = jdbi.onDemand(DAO.class);
 
     environment.jersey().register(new HtmlPageResource());
+
+    environment.jersey().register(new UserResource(
+            new UserService(dao)
+    ));
 
     environment.healthChecks().register("checks",
             new DatabaseHealthCheck(jdbi, configuration.getDataSourceFactory().getValidationQuery()));
