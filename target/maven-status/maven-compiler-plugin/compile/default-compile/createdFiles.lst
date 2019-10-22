@@ -6,6 +6,7 @@ com/iipsen2/app/daos/DAO.class
 com/iipsen2/app/resources/UserResource.class
 com/iipsen2/app/checks/DatabaseHealthCheck.class
 com/iipsen2/app/models/UserRoles.class
+com/iipsen2/app/providers/TokenProvider.class
 com/iipsen2/app/MainConfiguration.class
 com/iipsen2/app/MainService.class
 com/iipsen2/app/models/User.class

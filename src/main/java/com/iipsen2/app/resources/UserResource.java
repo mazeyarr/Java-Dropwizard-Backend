@@ -1,5 +1,6 @@
 package com.iipsen2.app.resources;
 
+import com.iipsen2.app.MainService;
 import com.iipsen2.app.models.User;
 import com.iipsen2.app.services.UserService;
 
@@ -25,6 +26,12 @@ public class UserResource {
             @QueryParam("password") String password
     ) {
         User authUser = UserService.getAuthUser(username, password);
+
+        if (authUser != null)
+            authUser.setJwt(
+                    MainService.tokenProvider
+                            .generateToken(authUser.getId())
+            );
 
         return authUser;
     }

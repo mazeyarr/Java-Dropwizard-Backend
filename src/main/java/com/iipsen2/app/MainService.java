@@ -2,6 +2,7 @@ package com.iipsen2.app;
 
 import com.iipsen2.app.checks.DatabaseHealthCheck;
 import com.iipsen2.app.daos.DAO;
+import com.iipsen2.app.providers.TokenProvider;
 import com.iipsen2.app.resources.HtmlPageResource;
 import com.iipsen2.app.resources.UserResource;
 import com.iipsen2.app.services.UserService;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 
 public class MainService extends Application<MainConfiguration> {
   final static String API_VERSION = "V0.0.2";
+  public static TokenProvider tokenProvider;
 
   public static void main(String[] args) throws Exception {
     new MainService().run(args);
@@ -46,6 +48,8 @@ public class MainService extends Application<MainConfiguration> {
 
     environment.healthChecks().register("checks",
             new DatabaseHealthCheck(jdbi, configuration.getDataSourceFactory().getValidationQuery()));
+
+    tokenProvider = new TokenProvider();
   }
 
   public static HashMap<String, String> getVersion() {

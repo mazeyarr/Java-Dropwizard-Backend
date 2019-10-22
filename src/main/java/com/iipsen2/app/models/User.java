@@ -20,6 +20,9 @@ public class User {
     @JsonProperty
     private String password;
 
+    @JsonProperty
+    private String jwt;
+
     private List<UserRoles> roles;
 
     public User() {
@@ -29,11 +32,13 @@ public class User {
     public User(
             long id,
             String username,
+            String password,
             String firstname,
             String lastname
     ) {
         this.setId(id);
         this.setUsername(username);
+        this.setPassword(password);
         this.setFirstname(firstname);
         this.setLastname(lastname);
     }
@@ -76,6 +81,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
     }
 
     public List<UserRoles> getRoles() {

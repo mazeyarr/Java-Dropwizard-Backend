@@ -17,9 +17,12 @@ public class UserService {
         User authUser = UserDAO.getAuthenticatedUser(username, password);
 
         if (authUser == null)
-            return new User();
+            return null;
 
-        List<UserRoles> authUserRoles = UserDAO.findUserRolesByUserId(authUser.getId());
+        List<UserRoles> authUserRoles = UserDAO.findUserRolesByUserId(
+                authUser.getId()
+        );
+
         authUser.setRoles(authUserRoles);
 
         return authUser;
