@@ -5,7 +5,6 @@ import com.google.common.io.Resources;
 import com.iipsen2.app.MainService;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;

@@ -37,12 +37,13 @@ public class UserResource {
     @POST
     @Path("/create")
     @Produces({MediaType.APPLICATION_JSON})
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public User postCreateAction(
-            @QueryParam("username") String username,
-            @QueryParam("firstname") String firstname,
-            @QueryParam("lastname") String lastname,
-            @QueryParam("password") String password,
-            @QueryParam("role") String role
+            @FormParam("username") String username,
+            @FormParam("firstname") String firstname,
+            @FormParam("lastname") String lastname,
+            @FormParam("password") String password,
+            @FormParam("role") String role
     ) {
         User user = UserService.createUser(
                 username,
