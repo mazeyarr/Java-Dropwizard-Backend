@@ -1,6 +1,7 @@
 package com.iipsen2.app.resources;
 
 import com.iipsen2.app.MainService;
+import com.iipsen2.app.filters.bindings.AuthBinding;
 import com.iipsen2.app.models.User;
 import com.iipsen2.app.services.UserService;
 
@@ -35,6 +36,7 @@ public class UserResource {
     }
 
     @POST
+    @AuthBinding
     @Path("/create")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -45,14 +47,13 @@ public class UserResource {
             @FormParam("password") String password,
             @FormParam("role") String role
     ) {
-        User user = UserService.createUser(
+
+        return UserService.createUser(
                 username,
                 password,
                 firstname,
                 lastname,
                 role
         );
-
-        return user;
     }
 }

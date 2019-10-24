@@ -3,6 +3,8 @@ com.iipsen2.app.checks
 com.iipsen2.app.daos
 com.iipsen2.app.daos.User
 com.iipsen2.app.daos.UserRoles
+com.iipsen2.app.filters
+com.iipsen2.app.filters.bindings
 com.iipsen2.app.models
 com.iipsen2.app.providers
 com.iipsen2.app.resources

@@ -4,134 +4,109 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.*;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class TokenProvider {
-    static final String TOKEN_OUTPUT_NAME = "token";
-    public final RSAPrivateKey PRIVATE_KEY;
-    public final RSAPublicKey PUBLIC_KEY;
-    public final Algorithm ALGORITHM_RS;
-    public final JWTVerifier VERIFIER;
+    public static final String ISSUER = "IIPSEN2-APP";
+    private static final String KEY_ALGORITHM = "RSA";
+    private static final int KEY_SIZE = 1048;
+    private static final String PUBLIC_KEY = "PUBLIC_KEY";
+    private static final String PRIVATE_KEY = "PRIVATE_KEY";
 
-    public TokenProvider() throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
-        if (tokenExists())
-            generateKeypair();
+    private Algorithm algorithm;
+    private RSAPrivateKey privateKey;
+    private RSAPublicKey publicKey;
 
-        PRIVATE_KEY = (RSAPrivateKey) getPrivateKey();
-        PUBLIC_KEY = (RSAPublicKey) getPublicKey();
-        ALGORITHM_RS = Algorithm.RSA256(PUBLIC_KEY, PRIVATE_KEY);
-        VERIFIER = JWT.require(ALGORITHM_RS)
-                .withIssuer("auth0")
-                .build();
+
+    public TokenProvider() {
+        Map<String, Object> keys = generateKeyPair();
+        this.privateKey = (RSAPrivateKey) Objects.requireNonNull(keys).get(PRIVATE_KEY);
+        this.publicKey = (RSAPublicKey) Objects.requireNonNull(keys).get(PUBLIC_KEY);
+        this.algorithm = Algorithm.RSA256(this.publicKey, this.privateKey);
     }
 
-    public String generateToken(long user_id) {
+    public static Map<String, Object> generateKeyPair() {
         try {
-            return JWT.create()
-                    .withIssuer("iipsen2")
-                    .withClaim("user_id", user_id)
-                    .sign(ALGORITHM_RS);
-        } catch (JWTCreationException exception) {
-            System.err.println("Invalid Signing configuration / Couldn't convert Claims.");
+            KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(KEY_ALGORITHM);
+            keyPairGen.initialize(KEY_SIZE);
+            KeyPair keyPair = keyPairGen.generateKeyPair();
+
+            RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+            RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+
+            Map<String, Object> keyMap = new HashMap<>(2);
+
+            keyMap.put(PUBLIC_KEY, publicKey);
+            keyMap.put(PRIVATE_KEY, privateKey);
+
+            return keyMap;
+        } catch (Exception e) {
+            System.err.println("Could not generate keypair...");
         }
 
         return null;
     }
 
-    public boolean isVerifiedToken(String token) {
+    public String generateToken(long id) {
         try {
-            VERIFIER.verify(token);
+            return JWT.create()
+                    .withClaim("user_id", id)
+                    .withIssuer(ISSUER)
+                    .sign(getAlgorithm());
+        } catch (JWTCreationException e) {
+            System.err.println("Could not generate token");
+        }
+
+        return null;
+    }
+
+    public boolean verifyToken(String token) {
+        try {
+            JWTVerifier verifier = JWT.require(getAlgorithm())
+                    .withIssuer(ISSUER)
+                    .build();
+
+            verifier.verify(token);
+
             return true;
-        } catch (JWTVerificationException exception) {
+        } catch (JWTVerificationException e) {
+            System.err.println("Could not verify token");
             return false;
         }
     }
 
     public DecodedJWT getDecodedJWT(String token) {
-        if (isVerifiedToken(token))
-            return VERIFIER.verify(token);
+        try {
+            return JWT.decode(token);
+        } catch (JWTDecodeException e) {
+            System.err.println("Could not decode token");
+        }
 
         return null;
     }
 
-    private void generateKeypair() {
-        try {
-            // Generate token pair
-            KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
-            kpg.initialize(2048);
-
-            // Generate RSA key pair
-            KeyPair kp = kpg.generateKeyPair();
-
-            // Extract the public and private key
-            Key pub = kp.getPublic();
-            Key pvt = kp.getPrivate();
-
-            // Write keys to files
-            FileOutputStream out = new FileOutputStream(TOKEN_OUTPUT_NAME + ".key");
-            out.write(pvt.getEncoded());
-            out.close();
-
-            out = new FileOutputStream(TOKEN_OUTPUT_NAME + ".pub");
-            out.write(pub.getEncoded());
-            out.close();
-
-            System.err.println("Private key format: " + pvt.getFormat());
-            System.err.println("Public key format: " + pub.getFormat());
-
-
-        } catch (NoSuchAlgorithmException e) {
-            System.err.println("No such algorithm....");
-        } catch (FileNotFoundException e) {
-            System.err.println("File not fount....");
-        } catch (IOException e) {
-            System.err.println("Write error....");
-            e.printStackTrace();
-        }
+    public RSAPrivateKey getPrivateKey() {
+        return privateKey;
     }
 
-    public static PrivateKey getPrivateKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        /* Read all bytes from the private key file */
-        Path path = Paths.get(TOKEN_OUTPUT_NAME + ".key");
-        byte[] bytes = Files.readAllBytes(path);
-
-        /* Generate private key. */
-        PKCS8EncodedKeySpec ks = new PKCS8EncodedKeySpec(bytes);
-        KeyFactory kf = KeyFactory.getInstance("RSA");
-        PrivateKey pvt = kf.generatePrivate(ks);
-
-        return pvt;
+    public RSAPublicKey getPublicKey() {
+        return publicKey;
     }
 
-    public static PublicKey getPublicKey() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
-        /* Read all the public key bytes */
-        Path path = Paths.get(TOKEN_OUTPUT_NAME + ".pub");
-        byte[] bytes = Files.readAllBytes(path);
-
-        /* Generate public key. */
-        X509EncodedKeySpec ks = new X509EncodedKeySpec(bytes);
-        KeyFactory kf = KeyFactory.getInstance("RSA");
-        PublicKey pub = kf.generatePublic(ks);
-
-        return pub;
-    }
-
-    static boolean tokenExists() {
-        return Files.exists(Paths.get(TOKEN_OUTPUT_NAME + ".key"));
+    public Algorithm getAlgorithm() {
+        return algorithm;
     }
 }
