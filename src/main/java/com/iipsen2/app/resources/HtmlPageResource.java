@@ -31,7 +31,7 @@ public class HtmlPageResource {
         return Response.ok(pageContent).build();
     }
 
-    @POST
+    @GET
     @Path("version")
     @Produces(MediaType.APPLICATION_JSON)
     public Response version() {

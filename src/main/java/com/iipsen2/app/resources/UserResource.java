@@ -4,10 +4,7 @@ import com.iipsen2.app.MainService;
 import com.iipsen2.app.models.User;
 import com.iipsen2.app.services.UserService;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("/user")
@@ -21,9 +18,10 @@ public class UserResource {
     @POST
     @Path("/login")
     @Produces({MediaType.APPLICATION_JSON})
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public User postLoginAction(
-            @QueryParam("username") String username,
-            @QueryParam("password") String password
+            @FormParam("username") String username,
+            @FormParam("password") String password
     ) {
         User authUser = UserService.getAuthUser(username, password);
 
