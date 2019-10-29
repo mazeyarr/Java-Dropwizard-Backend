@@ -4,11 +4,8 @@ import com.iipsen2.app.checks.DatabaseHealthCheck;
 import com.iipsen2.app.daos.DAO;
 import com.iipsen2.app.filters.AuthenticationFilter;
 import com.iipsen2.app.providers.TokenProvider;
-import com.iipsen2.app.resources.HtmlPageResource;
-import com.iipsen2.app.resources.UploadResource;
-import com.iipsen2.app.resources.UserResource;
-import com.iipsen2.app.services.UploadService;
-import com.iipsen2.app.services.UserService;
+import com.iipsen2.app.resources.*;
+import com.iipsen2.app.services.*;
 import io.dropwizard.Application;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.forms.MultiPartBundle;
@@ -84,6 +81,18 @@ public class MainService extends Application<MainConfiguration> {
 
     environment.jersey().register(new UserResource(
             new UserService(dao)
+    ));
+
+    environment.jersey().register(new InstituteResource(
+            new InstituteService(dao)
+    ));
+
+    environment.jersey().register(new EducationResource(
+            new EducationService(dao)
+    ));
+
+    environment.jersey().register(new ProjectResource(
+            new ProjectService(dao)
     ));
 
     environment.jersey().register(new UploadResource(

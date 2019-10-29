@@ -1,8 +1,6 @@
 dropwizard-mysql-crud-example
 =============================
 
-Taken from this [link](https://github.com/HoldInArms/dropwizard-mssql-crud-example) and ported to mysql
-
 ### Pre-requisites
 
 MYSQL database: Update the main.yml if your configuration differs. In this example, we use

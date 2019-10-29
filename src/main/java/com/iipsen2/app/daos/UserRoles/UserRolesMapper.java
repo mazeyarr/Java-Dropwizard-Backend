@@ -10,6 +10,10 @@ import java.sql.SQLException;
 
 public class UserRolesMapper implements ResultSetMapper<UserRoles>{
     public UserRoles map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
-        return new UserRoles( r.getLong("id") , r.getLong("user_id"), r.getString("role") );
+        return new UserRoles(
+                r.getLong("id") ,
+                r.getLong("user_id"),
+                r.getString("role")
+        );
     }
 }

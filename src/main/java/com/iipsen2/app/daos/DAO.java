@@ -1,9 +1,12 @@
 package com.iipsen2.app.daos;
 
+import com.iipsen2.app.daos.Education.EducationMapper;
+import com.iipsen2.app.daos.Institute.InstituteMapper;
+import com.iipsen2.app.daos.Project.ProjectMapper;
+import com.iipsen2.app.daos.Upload.UploadMapper;
 import com.iipsen2.app.daos.User.UserMapper;
 import com.iipsen2.app.daos.UserRoles.UserRolesMapper;
-import com.iipsen2.app.models.User;
-import com.iipsen2.app.models.UserRoles;
+import com.iipsen2.app.models.*;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
@@ -51,5 +54,46 @@ public interface DAO {
     long insertToUserRoles(
             @Bind("user_id") long userId,
             @Bind("role") String role
+    );
+
+    // Institutes
+    @SqlQuery("select * from institutes where id = :id")
+    @Mapper(InstituteMapper.class)
+    Institute findInstituteById(@Bind("id") long id);
+
+    // Educations
+    @SqlQuery("select * from educations where id = :id")
+    @Mapper(EducationMapper.class)
+    Education findEducationById(@Bind("id") long id);
+
+    // Projects
+    @SqlQuery("select * from projects where id = :id")
+    @Mapper(ProjectMapper.class)
+    Project findProjectById(@Bind("id") long id);
+
+    @SqlUpdate("insert into projects (title, language, tags, category, created_user_id, education_id) values (:title, :language, :tags, :category, :created_user_id, :education_id)")
+    @GetGeneratedKeys
+    long insertToProjects(
+            @Bind("title") String title,
+            @Bind("language") String language,
+            @Bind("tags") String tags,
+            @Bind("category") String category,
+            @Bind("created_user_id") long createdByUserId,
+            @Bind("education_id") long educationId
+    );
+
+    // Uploads
+    @SqlQuery("select * from uploads where id = :id")
+    @Mapper(UploadMapper.class)
+    Upload findUploadById(@Bind("id") long id);
+
+    @SqlUpdate("insert into uploads (filename, path, mime, extension, project_id) values (:filename, :path, :mime, :extension, :project_id)")
+    @GetGeneratedKeys
+    long insertToUploads(
+            @Bind("filename") String filename,
+            @Bind("path") String path,
+            @Bind("mime") String mime,
+            @Bind("extension") String extension,
+            @Bind("project_id") long projectId
     );
 }

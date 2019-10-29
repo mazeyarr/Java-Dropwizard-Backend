@@ -1,10 +1,16 @@
 com.iipsen2.app
 com.iipsen2.app.checks
 com.iipsen2.app.daos
+com.iipsen2.app.daos.Education
+com.iipsen2.app.daos.Institute
+com.iipsen2.app.daos.Project
+com.iipsen2.app.daos.Upload
 com.iipsen2.app.daos.User
 com.iipsen2.app.daos.UserRoles
 com.iipsen2.app.filters
 com.iipsen2.app.filters.bindings
+com.iipsen2.app.interfaces.abstracts
+com.iipsen2.app.interfaces.enums
 com.iipsen2.app.models
 com.iipsen2.app.providers
 com.iipsen2.app.resources

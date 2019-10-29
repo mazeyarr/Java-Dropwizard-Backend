@@ -1,7 +1,10 @@
 package com.iipsen2.app.resources;
 
 import com.iipsen2.app.filters.bindings.AuthBinding;
+import com.iipsen2.app.interfaces.enums.UploadType;
 import com.iipsen2.app.models.Project;
+import com.iipsen2.app.models.Upload;
+import com.iipsen2.app.services.ProjectService;
 import com.iipsen2.app.services.UploadService;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -13,7 +16,7 @@ import java.io.*;
 import java.util.UUID;
 
 
-@Path("/uploads")
+@Path("/upload")
 public class UploadResource {
     private UploadService UploadService;
 
@@ -26,8 +29,7 @@ public class UploadResource {
     @Path("/project")
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Project postUploadProjectAction(
-            @HeaderParam("Authorization") final String authToken,
+    public Upload postUploadProjectAction(
             @NotNull @FormDataParam("title") String title,
             @NotNull @FormDataParam("language") String language,
             @NotNull @FormDataParam("fieldOfStudy") String fieldOfStudy,
@@ -36,36 +38,8 @@ public class UploadResource {
             @NotNull @FormDataParam("project") final InputStream projectFileInputStream,
             @NotNull @FormDataParam("project") FormDataContentDisposition projectFileMetaData
     ) {
-        try {
-            Project project = new Project(
-                    title,
-                    language,
-                    fieldOfStudy,
-                    tags,
-                    category
-            );
+        Project newProject = ProjectService.createProject(title, language, tags, category);
 
-            project.setFilename(
-                    UUID.randomUUID().toString()
-            );
-
-            int read;
-            byte[] bytes = new byte[1024];
-
-            OutputStream out = new FileOutputStream(new File("src/main/resources/uploads/" + project.getFilename() + ".pdf"));
-
-            while ((read = projectFileInputStream.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
-            }
-
-            out.flush();
-            out.close();
-
-            return project;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new Project();
+        return UploadService.saveFileToFolder(UploadType.PROJECT, newProject.getId(), projectFileInputStream);
     }
 }

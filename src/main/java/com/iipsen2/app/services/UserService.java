@@ -7,10 +7,11 @@ import com.iipsen2.app.models.UserRoles;
 import java.util.List;
 
 public class UserService {
-    private DAO UserDAO;
+    private static DAO UserDAO;
+    private static User AuthUser;
 
     public UserService(DAO UserDAO) {
-        this.UserDAO = UserDAO;
+        UserService.UserDAO = UserDAO;
     }
 
     public User getAuthUser(String username, String password) {
@@ -28,6 +29,10 @@ public class UserService {
         return authUser;
     }
 
+    public static User getUserById(long id) {
+        return UserDAO.findUserById(id);
+    }
+
     public User createUser(
             String username,
             String password,
@@ -42,5 +47,13 @@ public class UserService {
         newUser.setRoles(UserDAO.findUserRolesByUserId(userId));
 
         return newUser;
+    }
+
+    public static User getAuthUser() {
+        return AuthUser;
+    }
+
+    public static void setAuthUser(User authUser) {
+        AuthUser = authUser;
     }
 }
