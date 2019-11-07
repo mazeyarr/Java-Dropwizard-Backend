@@ -13,9 +13,6 @@ public class Project {
     private String language;
 
     @JsonProperty
-    private String fieldOfStudy;
-
-    @JsonProperty
     private String tags;
 
     @JsonProperty
@@ -27,6 +24,9 @@ public class Project {
     @JsonProperty
     private Education education;
 
+    @JsonProperty
+    private Upload resource;
+
     public Project() {
     }
 
@@ -37,7 +37,8 @@ public class Project {
             String tags,
             String category,
             User createdBy,
-            Education education
+            Education education,
+            Upload resource
     ) {
         this.id = id;
         this.title = title;
@@ -46,6 +47,7 @@ public class Project {
         this.catagory = category;
         this.createdBy = createdBy;
         this.education = education;
+        this.resource = resource;
     }
 
     public long getId() {
@@ -60,15 +62,11 @@ public class Project {
         return language;
     }
 
-    public String getFieldOfStudy() {
-        return fieldOfStudy;
-    }
-
     public String getTags() {
         return tags;
     }
 
-    public String getCatagory() {
+    public String getCategory() {
         return catagory;
     }
 
@@ -78,5 +76,9 @@ public class Project {
 
     public Education getEducation() {
         return education;
+    }
+
+    public Upload getResource() {
+        return resource;
     }
 }

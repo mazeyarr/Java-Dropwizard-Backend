@@ -8,7 +8,7 @@
 
     <changeSet id="1" author="mazeyar">
         <createTable tableName="users">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="user_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="username" type="varchar(250)"/>
@@ -18,7 +18,7 @@
         </createTable>
 
         <createTable tableName="user_roles">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="user_role_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="role" type="varchar(250)"/>
@@ -27,7 +27,7 @@
         </createTable>
 
         <createTable tableName="institutes">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="institute_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(250)"/>
@@ -35,7 +35,7 @@
         </createTable>
 
         <createTable tableName="educations">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="education_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="varchar(250)"/>
@@ -43,7 +43,7 @@
         </createTable>
 
         <createTable tableName="projects">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="project_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="varchar(250)"/>
@@ -56,7 +56,7 @@
         </createTable>
 
         <createTable tableName="uploads">
-            <column name="id" type="bigint" autoIncrement="true">
+            <column name="upload_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="filename" type="varchar(250)"/>
@@ -73,35 +73,35 @@
                 baseColumnNames="user_id"
                 baseTableName="user_roles"
                 constraintName="user_role_to_users"
-                referencedColumnNames="id"
+                referencedColumnNames="user_id"
                 referencedTableName="users" />
 
         <addForeignKeyConstraint
                 baseColumnNames="institute_id"
                 baseTableName="educations"
                 constraintName="educations_to_institutes"
-                referencedColumnNames="id"
+                referencedColumnNames="institute_id"
                 referencedTableName="institutes" />
 
         <addForeignKeyConstraint
                 baseColumnNames="created_user_id"
                 baseTableName="projects"
                 constraintName="projects_to_users"
-                referencedColumnNames="id"
+                referencedColumnNames="user_id"
                 referencedTableName="users" />
 
         <addForeignKeyConstraint
                 baseColumnNames="education_id"
                 baseTableName="projects"
                 constraintName="projects_to_educations"
-                referencedColumnNames="id"
+                referencedColumnNames="education_id"
                 referencedTableName="educations" />
 
         <addForeignKeyConstraint
                 baseColumnNames="project_id"
                 baseTableName="uploads"
                 constraintName="uploads_to_projects"
-                referencedColumnNames="id"
+                referencedColumnNames="project_id"
                 referencedTableName="projects" />
 
 

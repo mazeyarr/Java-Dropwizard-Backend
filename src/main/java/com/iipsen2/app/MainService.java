@@ -7,6 +7,7 @@ import com.iipsen2.app.providers.TokenProvider;
 import com.iipsen2.app.resources.*;
 import com.iipsen2.app.services.*;
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.db.PooledDataSourceFactory;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.jdbi.DBIFactory;

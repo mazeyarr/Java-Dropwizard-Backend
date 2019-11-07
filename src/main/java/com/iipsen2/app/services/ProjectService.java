@@ -1,10 +1,17 @@
 package com.iipsen2.app.services;
 
 import com.iipsen2.app.daos.DAO;
+import com.iipsen2.app.interfaces.abstracts.UploadPaths;
 import com.iipsen2.app.models.Project;
 
-import java.io.InputStream;
-import java.util.UUID;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 public class ProjectService {
     private static DAO ProjectDAO;
@@ -15,6 +22,39 @@ public class ProjectService {
 
     public static Project getProject(long id) {
         return ProjectDAO.findProjectById(id);
+    }
+
+    public static StreamingOutput getProjectResource(final Project project) {
+        StreamingOutput fileStream =  new StreamingOutput()
+        {
+            @Override
+            public void write(OutputStream output) throws IOException, WebApplicationException
+            {
+                try
+                {
+                    Path path = Paths.get(project.getResource().getFullPath());
+
+                    byte[] data = Files.readAllBytes(path);
+
+                    output.write(data);
+                    output.flush();
+                }
+                catch (Exception e)
+                {
+                    throw new WebApplicationException("File Not Found !!");
+                }
+            }
+        };
+
+        return fileStream;
+    }
+
+    public static List<Project> getProjects() {
+        return ProjectDAO.getProjects();
+    }
+
+    public static List<Project> getProjects(int limit) {
+        return ProjectDAO.getProjects(limit);
     }
 
     public static Project createProject(

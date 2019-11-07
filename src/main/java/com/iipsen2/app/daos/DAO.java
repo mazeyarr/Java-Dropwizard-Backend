@@ -13,6 +13,7 @@ import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public interface DAO {
     @Mapper(UserMapper.class)
     User getAuthenticatedUser(@Bind("username") String username, @Bind("password") String password);
 
-    @SqlQuery("select * from users as u LEFT JOIN user_roles as ur ON ur.user_id=u.id where u.id = :id")
+    @SqlQuery("select * from users as u LEFT JOIN user_roles as ur ON ur.user_id=u.user_id where u.user_id = :id")
     @Mapper(UserMapper.class)
     User findUserById(@Bind("id") long id);
 
@@ -41,11 +42,11 @@ public interface DAO {
     );
 
     // User Roles
-    @SqlQuery("select id, user_id, role from user_roles where id = :id")
+    @SqlQuery("select user_role_id, user_id, role from user_roles where user_role_id = :id")
     @Mapper(UserRolesMapper.class)
     List<UserRoles> findUserRolesById(@Bind("id") long id);
 
-    @SqlQuery("select id, user_id, role from user_roles where user_id = :user_id")
+    @SqlQuery("select * from user_roles where user_id = :user_id")
     @Mapper(UserRolesMapper.class)
     List<UserRoles> findUserRolesByUserId(@Bind("user_id") long userId);
 
@@ -57,19 +58,27 @@ public interface DAO {
     );
 
     // Institutes
-    @SqlQuery("select * from institutes where id = :id")
+    @SqlQuery("select * from institutes where institute_id = :id")
     @Mapper(InstituteMapper.class)
     Institute findInstituteById(@Bind("id") long id);
 
     // Educations
-    @SqlQuery("select * from educations where id = :id")
+    @SqlQuery("select * from educations where education_id = :id")
     @Mapper(EducationMapper.class)
     Education findEducationById(@Bind("id") long id);
 
     // Projects
-    @SqlQuery("select * from projects where id = :id")
+    @SqlQuery("select * from projects as p left join uploads as u on u.project_id = p.project_id where p.project_id = :id")
     @Mapper(ProjectMapper.class)
     Project findProjectById(@Bind("id") long id);
+
+    @SqlQuery("select * from projects as p left join uploads as u on u.project_id = p.project_id")
+    @Mapper(ProjectMapper.class)
+    List<Project> getProjects();
+
+    @SqlQuery("select * from projects as p left join uploads as u on u.project_id = p.project_id limit :limit")
+    @Mapper(ProjectMapper.class)
+    List<Project> getProjects(@Bind("limit") long limit);
 
     @SqlUpdate("insert into projects (title, language, tags, category, created_user_id, education_id) values (:title, :language, :tags, :category, :created_user_id, :education_id)")
     @GetGeneratedKeys
@@ -83,7 +92,7 @@ public interface DAO {
     );
 
     // Uploads
-    @SqlQuery("select * from uploads where id = :id")
+    @SqlQuery("select * from uploads where upload_id = :id")
     @Mapper(UploadMapper.class)
     Upload findUploadById(@Bind("id") long id);
 

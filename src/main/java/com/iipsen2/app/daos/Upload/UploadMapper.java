@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class UploadMapper implements ResultSetMapper<Upload>{
     public Upload map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
         return new Upload(
-                r.getLong("id") ,
+                r.getLong("upload_id") ,
                 r.getString("filename"),
                 r.getString("path"),
                 r.getString("mime"),

@@ -43,6 +43,10 @@ public class Upload {
         return path;
     }
 
+    public String getFullPath() {
+        return this.getPath() + this.getFilename();
+    }
+
     public String getMime() {
         return mime;
     }

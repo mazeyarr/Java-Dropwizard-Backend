@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class EducationMapper implements ResultSetMapper<Education>{
     public Education map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
         return new Education(
-                r.getLong("id") ,
+                r.getLong("education_id") ,
                 r.getString("title"),
                 InstituteService.getInstitute(r.getLong("institute_id"))
         );
