@@ -7,7 +7,9 @@ import com.iipsen2.app.daos.ProjectLikes.ProjectLikesMapper;
 import com.iipsen2.app.daos.Upload.UploadMapper;
 import com.iipsen2.app.daos.User.UserMapper;
 import com.iipsen2.app.daos.UserRoles.UserRolesMapper;
+import com.iipsen2.app.interfaces.enums.LikeType;
 import com.iipsen2.app.models.*;
+import org.hibernate.annotations.SQLDelete;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
@@ -218,6 +220,20 @@ public interface DAO {
     @Mapper(ProjectLikesMapper.class)
     List<ProjectLikes> getProjectLikes(@Bind("project_id") long project_id);
 
+    @SqlUpdate("insert into projects_likes (like_type, project_id, user_id) values (:like_type, :project_id, user_id)")
+    @GetGeneratedKeys
+    long insertToProjectsLikes(
+            @Bind("like_type") LikeType likeType,
+            @Bind("project_id") long project_id,
+            @Bind("user_id") long user_id
+    );
+
+    @SqlUpdate("update projects_likes set like_type = :like_type where project_id = :project_id and user_id = :user_id")
+    void updateProjectLikeOfUser(@Bind("like_type") LikeType likeType, @Bind("project_id") long project_id, @Bind("user_id") long user_id);
+
+    @SqlUpdate("delete from projects_likes WHERE project_id = :project_id and user_id = :user_id")
+    void deleteProjectLikeOfUser(@Bind("project_id") long project_id, @Bind("user_id") long user_id);
+
     /**
      * Counts the rows of users that liked the project
      *
@@ -226,8 +242,20 @@ public interface DAO {
      * @param projectId foreign key Project
      * @return total amount of likes as an integer
      */
-    @SqlQuery("select count(*) from projects_likes as pl where pl.project_id = :project_id")
+    @SqlQuery("select count(*) from projects_likes as pl where pl.project_id = :project_id and pl.like_type = 'LIKE'")
     int getProjectTotalLikes(@Bind("project_id") long projectId);
+
+    /**
+     * counts if user has liked the project ones
+     *
+     * @author Mazeyar Rezaei
+     * @since 05-11-2019
+     * @param projectId foreign key Project
+     * @param userId foreign key User
+     * @return total amount of likes as an integer
+     */
+    @SqlQuery("select count(*) from projects_likes as pl where pl.project_id = :project_id and pl.user_id = :user_id")
+    int getCountUserLikedProject(@Bind("project_id") long projectId, @Bind("user_id") long userId);
 
     // Uploads
 

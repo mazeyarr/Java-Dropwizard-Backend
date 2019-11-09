@@ -4,6 +4,7 @@ com.iipsen2.app.daos
 com.iipsen2.app.daos.Education
 com.iipsen2.app.daos.Institute
 com.iipsen2.app.daos.Project
+com.iipsen2.app.daos.ProjectLikes
 com.iipsen2.app.daos.Upload
 com.iipsen2.app.daos.User
 com.iipsen2.app.daos.UserRoles

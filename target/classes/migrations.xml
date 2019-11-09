@@ -60,7 +60,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
-            <column name="like_type" type="tinyint(1)"/>
+            <column name="like_type" type="varchar(50)"/>
 
             <column name="user_id" type="bigint">
                 <constraints nullable="true"/>

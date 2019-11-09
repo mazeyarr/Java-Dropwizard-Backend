@@ -1,8 +1,11 @@
 package com.iipsen2.app.resources;
 
+import com.iipsen2.app.filters.bindings.AuthBinding;
+import com.iipsen2.app.interfaces.enums.LikeType;
 import com.iipsen2.app.models.Project;
 import com.iipsen2.app.services.ProjectLikesService;
 import com.iipsen2.app.services.ProjectService;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -42,7 +45,7 @@ public class ProjectResource {
 
     @GET
     @Path("/{id}/resource")
-    public Response getProjectResource(
+    public Response getProjectResourceAction(
             @PathParam("id") long id
     ) {
         Project project = ProjectService.getProject(id);
@@ -51,6 +54,16 @@ public class ProjectResource {
                 .ok(ProjectService.getProjectResource(project), MediaType.APPLICATION_OCTET_STREAM)
                 .header("content-disposition","attachment; filename = " + project.getResource().getFilename())
                 .build();
+    }
+
+    @POST
+    @AuthBinding
+    @Path("/{id}/like")
+    public int postProjectLikeAction(
+            @PathParam("id") long id,
+            @FormDataParam("likeType") String likeType
+    ) {
+        return ProjectLikesService.handleProjectLike(id, LikeType.valueOf(likeType));
     }
 
 }

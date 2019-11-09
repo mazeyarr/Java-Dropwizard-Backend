@@ -1,5 +1,6 @@
 package com.iipsen2.app.daos.ProjectLikes;
 
+import com.iipsen2.app.interfaces.enums.LikeType;
 import com.iipsen2.app.interfaces.enums.LikeTypeTranslator;
 import com.iipsen2.app.models.Project;
 import com.iipsen2.app.models.ProjectLikes;
@@ -39,17 +40,20 @@ public class ProjectLikesMapper implements ResultSetMapper<ProjectLikes> {
                 )
         );
 
+        User user = new User(
+                r.getLong("user_id"),
+                r.getString("username"),
+                r.getString("password"),
+                r.getString("firstname"),
+                r.getString("lastname")
+        );
+
         return new ProjectLikes(
                 r.getLong("project_likes_id"),
-                LikeTypeTranslator.translate(r.getInt("like_type")),
-                new User(
-                        r.getLong("user_id"),
-                        r.getString("username"),
-                        r.getString("password"),
-                        r.getString("firstname"),
-                        r.getString("lastname")
-                ),
+                LikeType.valueOf(r.getString("like_type")),
+                user,
                 project
         );
     }
+
 }
