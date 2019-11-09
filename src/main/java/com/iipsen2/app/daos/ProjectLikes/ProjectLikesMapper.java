@@ -13,6 +13,12 @@ import org.skife.jdbi.v2.tweak.ResultSetMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Maps the attributes from the ProjectLikes table in the database to Java Objects
+ * Joins Project and User Objects
+ * @author Mazeyar Reazaei
+ * @since 05-11-2019
+ */
 public class ProjectLikesMapper implements ResultSetMapper<ProjectLikes> {
     @Override
     public ProjectLikes map(int i, ResultSet r, StatementContext ctx) throws SQLException {

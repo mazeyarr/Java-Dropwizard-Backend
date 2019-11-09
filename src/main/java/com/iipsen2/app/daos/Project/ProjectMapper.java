@@ -11,9 +11,17 @@ import org.skife.jdbi.v2.tweak.ResultSetMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Maps the attributes from the Project table in the database to Java Objects
+ * Joins likes to this object
+ *
+ * @author Mazeyar Reazaei
+ * @since 17-10-2019
+ */
 public class ProjectMapper implements ResultSetMapper<Project> {
     @Override
     public Project map(int i, ResultSet r, StatementContext ctx) throws SQLException {
+        // TODO: change this mapper so that it uses joins instead of a service to join @mazeyar
         Project project = new Project(
                 r.getLong("project_id"),
                 r.getString("title"),

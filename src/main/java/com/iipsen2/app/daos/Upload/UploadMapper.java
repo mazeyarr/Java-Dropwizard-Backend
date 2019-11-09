@@ -7,6 +7,12 @@ import org.skife.jdbi.v2.tweak.ResultSetMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Maps the attributes from the Uploads table in the database to Java Objects
+ *
+ * @author Mazeyar Reazaei
+ * @since 17-10-2019
+ */
 public class UploadMapper implements ResultSetMapper<Upload>{
     public Upload map(final int index, final ResultSet r, final StatementContext ctx) throws SQLException {
         return new Upload(
