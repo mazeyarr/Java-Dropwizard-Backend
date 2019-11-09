@@ -3,6 +3,7 @@ package com.iipsen2.app.daos;
 import com.iipsen2.app.daos.Education.EducationMapper;
 import com.iipsen2.app.daos.Institute.InstituteMapper;
 import com.iipsen2.app.daos.Project.ProjectMapper;
+import com.iipsen2.app.daos.ProjectLikes.ProjectLikesMapper;
 import com.iipsen2.app.daos.Upload.UploadMapper;
 import com.iipsen2.app.daos.User.UserMapper;
 import com.iipsen2.app.daos.UserRoles.UserRolesMapper;
@@ -90,6 +91,14 @@ public interface DAO {
             @Bind("created_user_id") long createdByUserId,
             @Bind("education_id") long educationId
     );
+
+    // PROJECT LIKES
+    @SqlQuery("select * from projects_likes as pl left join users as u on pl.user_id = pl.user_id left join projects as p on pl.project_id = p.project_id left join uploads as up on up.project_id = p.project_id where pl.project_id = :project_id")
+    @Mapper(ProjectLikesMapper.class)
+    List<ProjectLikes> getProjectLikes(@Bind("project_id") long project_id);
+
+    @SqlQuery("select count(*) from projects_likes as pl where pl.project_id = :project_id")
+    int getProjectTotalLikes(@Bind("project_id") long projectId);
 
     // Uploads
     @SqlQuery("select * from uploads where upload_id = :id")

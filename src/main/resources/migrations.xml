@@ -55,6 +55,22 @@
             <column name="education_id" type="bigint"/>
         </createTable>
 
+        <createTable tableName="projects_likes">
+            <column name="project_likes_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="like_type" type="tinyint(1)"/>
+
+            <column name="user_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="project_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
         <createTable tableName="uploads">
             <column name="upload_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -89,6 +105,20 @@
                 constraintName="projects_to_users"
                 referencedColumnNames="user_id"
                 referencedTableName="users" />
+
+        <addForeignKeyConstraint
+                baseColumnNames="user_id"
+                baseTableName="projects_likes"
+                constraintName="projects_likes_to_users"
+                referencedColumnNames="user_id"
+                referencedTableName="users" />
+
+        <addForeignKeyConstraint
+                baseColumnNames="project_id"
+                baseTableName="projects_likes"
+                constraintName="projects_likes_to_projects"
+                referencedColumnNames="project_id"
+                referencedTableName="projects" />
 
         <addForeignKeyConstraint
                 baseColumnNames="education_id"

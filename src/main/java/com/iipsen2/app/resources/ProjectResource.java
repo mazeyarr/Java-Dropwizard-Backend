@@ -1,6 +1,7 @@
 package com.iipsen2.app.resources;
 
 import com.iipsen2.app.models.Project;
+import com.iipsen2.app.services.ProjectLikesService;
 import com.iipsen2.app.services.ProjectService;
 
 import javax.ws.rs.*;
@@ -11,9 +12,11 @@ import java.util.List;
 @Path("/project")
 public class ProjectResource {
     private ProjectService projectService;
+    private ProjectLikesService projectLikesService;
 
-    public ProjectResource(ProjectService projectService) {
+    public ProjectResource(ProjectService projectService, ProjectLikesService projectLikesService) {
         this.projectService = projectService;
+        this.projectLikesService = projectLikesService;
     }
 
     @GET

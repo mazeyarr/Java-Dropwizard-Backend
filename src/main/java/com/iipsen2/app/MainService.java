@@ -93,7 +93,8 @@ public class MainService extends Application<MainConfiguration> {
     ));
 
     environment.jersey().register(new ProjectResource(
-            new ProjectService(dao)
+            new ProjectService(dao),
+            new ProjectLikesService(dao)
     ));
 
     environment.jersey().register(new UploadResource(

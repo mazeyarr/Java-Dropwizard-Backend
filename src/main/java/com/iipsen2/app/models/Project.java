@@ -2,6 +2,8 @@ package com.iipsen2.app.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class Project {
     @JsonProperty
     private long id;
@@ -26,6 +28,12 @@ public class Project {
 
     @JsonProperty
     private Upload resource;
+
+    @JsonProperty
+    private List<ProjectLikes> likes;
+
+    @JsonProperty
+    private int totalLikes;
 
     public Project() {
     }
@@ -80,5 +88,21 @@ public class Project {
 
     public Upload getResource() {
         return resource;
+    }
+
+    public List<ProjectLikes> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<ProjectLikes> likes) {
+        this.likes = likes;
+    }
+
+    public int getTotalLikes() {
+        return totalLikes;
+    }
+
+    public void setTotalLikes(int totalLikes) {
+        this.totalLikes = totalLikes;
     }
 }

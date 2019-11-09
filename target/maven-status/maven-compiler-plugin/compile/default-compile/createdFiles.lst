@@ -30,5 +30,6 @@ com/iipsen2/app/models/UserRoles.class
 com/iipsen2/app/providers/TokenProvider.class
 com/iipsen2/app/services/UploadService$1.class
 com/iipsen2/app/MainConfiguration.class
+com/iipsen2/app/services/ProjectService$1.class
 com/iipsen2/app/filters/bindings/AuthBinding.class
 com/iipsen2/app/daos/User/UserMapper.class

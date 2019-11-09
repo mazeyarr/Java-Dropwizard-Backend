@@ -25,7 +25,7 @@ public class ProjectService {
     }
 
     public static StreamingOutput getProjectResource(final Project project) {
-        StreamingOutput fileStream =  new StreamingOutput()
+        return new StreamingOutput()
         {
             @Override
             public void write(OutputStream output) throws IOException, WebApplicationException
@@ -45,8 +45,6 @@ public class ProjectService {
                 }
             }
         };
-
-        return fileStream;
     }
 
     public static List<Project> getProjects() {

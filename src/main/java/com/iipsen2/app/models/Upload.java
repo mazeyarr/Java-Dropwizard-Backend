@@ -18,16 +18,12 @@ public class Upload {
     @JsonProperty
     private String extension;
 
-    @JsonProperty
-    private Project project;
-
-    public Upload(long id, String filename, String path, String mime, String extension, Project project) {
+    public Upload(long id, String filename, String path, String mime, String extension) {
         this.id = id;
         this.filename = filename;
         this.path = path;
         this.mime = mime;
         this.extension = extension;
-        this.project = project;
     }
 
 
@@ -53,9 +49,5 @@ public class Upload {
 
     public String getExtension() {
         return extension;
-    }
-
-    public Project getProject() {
-        return project;
     }
 }
