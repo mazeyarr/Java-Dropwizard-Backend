@@ -3,6 +3,12 @@ package com.iipsen2.app.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.iipsen2.app.interfaces.enums.LikeType;
 
+/**
+ * ProjectLikes Model
+ *
+ * @author Mazeyar Rezaei
+ * @since 05-11-2019
+ */
 public class ProjectLikes {
     @JsonProperty
     private long id;

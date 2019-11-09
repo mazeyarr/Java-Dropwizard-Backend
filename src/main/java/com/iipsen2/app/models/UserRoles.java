@@ -2,6 +2,12 @@ package com.iipsen2.app.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * UserRoles Model
+ *
+ * @author Mazeyar Rezaei
+ * @since 17-10-2019
+ */
 public class UserRoles {
     @JsonProperty
     private long id;

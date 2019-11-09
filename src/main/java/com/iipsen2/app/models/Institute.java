@@ -2,6 +2,12 @@ package com.iipsen2.app.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Institute Model
+ *
+ * @author Mazeyar Rezaei
+ * @since 17-10-2019
+ */
 public class Institute {
     @JsonProperty
     private long id;

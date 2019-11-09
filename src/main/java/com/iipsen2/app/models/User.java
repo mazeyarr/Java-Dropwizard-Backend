@@ -4,6 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+/**
+ * User Model
+ *
+ * @author Mazeyar Rezaei
+ * @since 17-10-2019
+ */
 public class User {
     @JsonProperty
     private long id;

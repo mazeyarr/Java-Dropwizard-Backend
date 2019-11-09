@@ -2,6 +2,12 @@ package com.iipsen2.app.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Upload Model
+ *
+ * @author Mazeyar Rezaei
+ * @since 18-10-2019
+ */
 public class Upload {
     @JsonProperty
     private long id;
