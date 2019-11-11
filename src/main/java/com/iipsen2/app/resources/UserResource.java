@@ -16,6 +16,15 @@ public class UserResource {
         this.UserService = userService;
     }
 
+    /**
+     * Client lands on this endpoint, using the username and password combination. And sends all the data
+     * to the UserService.
+     *
+     * @author Joeri Duijkren
+     * @param username
+     * @param password
+     * @return
+     */
     @POST
     @Path("/login")
     @Produces({MediaType.APPLICATION_JSON})

@@ -72,4 +72,16 @@ public class ProjectService {
 
         return ProjectService.getProject(projectId);
     }
+
+    public static Project updateProject(
+            long projectId,
+            String title,
+            String language,
+            String tags,
+            String category
+    ) {
+        ProjectDAO.updateProject(projectId, title, language, tags, category);
+
+        return ProjectDAO.findProjectById(projectId);
+    }
 }

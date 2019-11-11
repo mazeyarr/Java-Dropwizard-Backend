@@ -22,7 +22,6 @@ com/iipsen2/app/interfaces/enums/LikeTypeTranslator.class
 com/iipsen2/app/resources/EducationResource.class
 com/iipsen2/app/resources/HtmlPageResource.class
 com/iipsen2/app/services/EducationService.class
-com/iipsen2/app/services/ProjectLikesService$1.class
 com/iipsen2/app/filters/AuthenticationFilter.class
 com/iipsen2/app/models/Institute.class
 com/iipsen2/app/services/ProjectLikesService.class

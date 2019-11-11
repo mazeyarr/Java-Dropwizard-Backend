@@ -10,6 +10,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 import java.util.List;
 
 @Path("/project")
@@ -59,7 +60,8 @@ public class ProjectResource {
     @POST
     @AuthBinding
     @Path("/{id}/like")
-    public int postProjectLikeAction(
+    @Produces({MediaType.APPLICATION_JSON})
+    public HashMap<String, Integer> postProjectLikeAction(
             @PathParam("id") long id,
             @FormDataParam("likeType") String likeType
     ) {

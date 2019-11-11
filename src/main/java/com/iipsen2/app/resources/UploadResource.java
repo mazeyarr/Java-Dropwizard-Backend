@@ -42,4 +42,35 @@ public class UploadResource {
 
         return UploadService.saveFileToFolder(UploadType.PROJECT, newProject.getId(), projectFileInputStream);
     }
+
+    @POST
+    @AuthBinding
+    @Path("/project/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Upload postEditUploadProjectAction(
+            @NotNull @PathParam("id") long projectId,
+            @NotNull @FormDataParam("title") String title,
+            @NotNull @FormDataParam("language") String language,
+            @NotNull @FormDataParam("fieldOfStudy") String fieldOfStudy,
+            @NotNull @FormDataParam("tags") String tags,
+            @NotNull @FormDataParam("category") String category,
+            @NotNull @FormDataParam("project") final InputStream projectFileInputStream,
+            @NotNull @FormDataParam("project") FormDataContentDisposition projectFileMetaData
+    ) {
+        Project project = ProjectService.updateProject(
+                projectId,
+                title,
+                language,
+                tags,
+                category
+        );
+
+        return UploadService.updateFileInFolder(
+                UploadType.PROJECT,
+                project.getResource().getId(),
+                project.getResource().getFilename(),
+                projectFileInputStream
+        );
+    }
 }

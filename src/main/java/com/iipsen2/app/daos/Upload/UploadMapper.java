@@ -20,7 +20,8 @@ public class UploadMapper implements ResultSetMapper<Upload>{
                 r.getString("filename"),
                 r.getString("path"),
                 r.getString("mime"),
-                r.getString("extension")
+                r.getString("extension"),
+                r.getLong("project_id")
         );
     }
 }

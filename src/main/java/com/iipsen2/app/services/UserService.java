@@ -14,6 +14,14 @@ public class UserService {
         UserService.UserDAO = UserDAO;
     }
 
+    /**
+     * Gets authenticated user using the credentials passed in the parameters.
+     *
+     * @author Joeri Duijkren
+     * @param username
+     * @param password
+     * @return
+     */
     public User getAuthUser(String username, String password) {
         User authUser = UserDAO.getAuthenticatedUser(username, password);
 

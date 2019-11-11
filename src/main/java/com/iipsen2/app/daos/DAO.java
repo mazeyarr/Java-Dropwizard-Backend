@@ -31,7 +31,7 @@ public interface DAO {
     /**
      * Gets the authenticated user if the combination of username and password is correct
      *
-     * @author Mazeyar Rezaei
+     * @author Joeri Duijkren
      * @param username string
      * @param password string
      * @return User object
@@ -206,6 +206,15 @@ public interface DAO {
             @Bind("education_id") long educationId
     );
 
+    @SqlUpdate("update projects set title = :title, language = :language, tags = :tags, category = :category where project_id = :project_id")
+    void updateProject(
+            @Bind("project_id") long projectId,
+            @Bind("title") String title,
+            @Bind("language") String language,
+            @Bind("tags") String tags,
+            @Bind("category") String category
+    );
+
     // PROJECT LIKES
 
     /**
@@ -220,7 +229,19 @@ public interface DAO {
     @Mapper(ProjectLikesMapper.class)
     List<ProjectLikes> getProjectLikes(@Bind("project_id") long project_id);
 
-    @SqlUpdate("insert into projects_likes (like_type, project_id, user_id) values (:like_type, :project_id, user_id)")
+    /**
+     * Gets like by project_id and user_id
+     *
+     * @author Mazeyar Rezaei
+     * @since 05-11-2019
+     * @param project_id foreign key Project
+     * @return List of ProjectLikes object
+     */
+    @SqlQuery("select * from projects_likes as pl left join projects as p on pl.project_id = p.project_id left join uploads as up on up.project_id = p.project_id left join users as u on pl.user_id = u.user_id where pl.project_id = :project_id and pl.user_id = u.user_id")
+    @Mapper(ProjectLikesMapper.class)
+    ProjectLikes getProjectLike(@Bind("project_id") long project_id, @Bind("user_id") long user_id);
+
+    @SqlUpdate("insert into projects_likes (like_type, project_id, user_id) values (:like_type, :project_id, :user_id)")
     @GetGeneratedKeys
     long insertToProjectsLikes(
             @Bind("like_type") LikeType likeType,
@@ -229,7 +250,11 @@ public interface DAO {
     );
 
     @SqlUpdate("update projects_likes set like_type = :like_type where project_id = :project_id and user_id = :user_id")
-    void updateProjectLikeOfUser(@Bind("like_type") LikeType likeType, @Bind("project_id") long project_id, @Bind("user_id") long user_id);
+    void updateProjectLikeOfUser(
+            @Bind("like_type") LikeType likeType,
+            @Bind("project_id") long project_id,
+            @Bind("user_id") long user_id
+    );
 
     @SqlUpdate("delete from projects_likes WHERE project_id = :project_id and user_id = :user_id")
     void deleteProjectLikeOfUser(@Bind("project_id") long project_id, @Bind("user_id") long user_id);
@@ -291,5 +316,14 @@ public interface DAO {
             @Bind("mime") String mime,
             @Bind("extension") String extension,
             @Bind("project_id") long projectId
+    );
+
+    @SqlUpdate("update uploads set filename = :filename, path = :path, mime = :mime, extension = :extension where upload_id = :upload_id")
+    void updateUpload(
+            @Bind("upload_id") long uploadId,
+            @Bind("filename") String filename,
+            @Bind("path") String path,
+            @Bind("mime") String mime,
+            @Bind("extension") String extension
     );
 }

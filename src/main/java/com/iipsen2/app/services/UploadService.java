@@ -3,7 +3,6 @@ package com.iipsen2.app.services;
 import com.iipsen2.app.daos.DAO;
 import com.iipsen2.app.interfaces.abstracts.UploadPaths;
 import com.iipsen2.app.interfaces.enums.UploadType;
-import com.iipsen2.app.models.Project;
 import com.iipsen2.app.models.Upload;
 import liquibase.util.file.FilenameUtils;
 
@@ -44,11 +43,39 @@ public class UploadService {
         }
     }
 
+    public Upload updateFileInFolder(UploadType type, long entity_id, String currentFilename, InputStream newFile) {
+        switch (type) {
+            case PROJECT:
+                HashMap<String, Object> removeResult = removeProjectFile(currentFilename);
+
+                if (!(boolean) removeResult.get("error")) {
+                    HashMap<String, Object> saveResult = saveProjectFileToFolder(newFile);
+
+                    if (!(boolean) saveResult.get("error")) {
+                        UploadDAO.updateUpload(
+                                entity_id,
+                                (String) saveResult.get("filename"),
+                                (String) saveResult.get("path"),
+                                (String) saveResult.get("mimeType"),
+                                (String) saveResult.get("extension")
+                        );
+
+                        return UploadDAO.findUploadById(entity_id);
+                    }
+                }
+                return null;
+
+            case AVATAR:
+            default:
+                return null;
+        }
+    }
+
     private HashMap<String, Object> saveProjectFileToFolder(InputStream fileInputStream) {
         HashMap<String, Object> result = new HashMap<>();
         try {
             String filename = UUID.randomUUID() + ".pdf";
-            String outputPath = UploadPaths.generatePath(filename);
+            String outputPath = UploadPaths.generateProjectPath(filename);
 
             int read;
             byte[] bytes = new byte[1024];
@@ -81,5 +108,26 @@ public class UploadService {
 
             return result;
         }
+    }
+
+    private HashMap<String, Object> removeProjectFile(String filename) {
+        HashMap<String, Object> result = new HashMap<>();
+
+        try{
+
+            File file = new File(UploadPaths.generateProjectPath(filename));
+
+            if(file.delete()){
+                result.put("error", false);
+            }else{
+                result.put("error", true);
+            }
+
+        }catch(Exception e){
+            result.put("error", true);
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }
